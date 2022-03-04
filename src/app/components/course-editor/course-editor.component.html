@@ -1,0 +1,87 @@
+<button (click)="goBack()">back</button>
+<form [formGroup]="form">
+  <h2>Course</h2>
+  <app-content-with-label label="name">
+    <input formControlName="name">
+  </app-content-with-label>
+  <fieldset formGroupName="author">
+    <h3>Author</h3>
+    <app-content-with-label label="firstName">
+      <input formControlName="firstName">
+    </app-content-with-label>
+    <app-content-with-label label="lastName">
+      <input formControlName="lastName">
+    </app-content-with-label>
+  </fieldset>
+  <fieldset formArrayName="contents">
+    <h3>Contents</h3>
+    <fieldset *ngFor="let content of contests.controls; index as i" [formGroupName]="i">
+      <h4>Content</h4>
+      <app-content-with-label label="name">
+        <input formControlName="name">
+      </app-content-with-label>
+      <app-content-with-label label="type">
+        <fieldset>
+          <input formControlName="type" type="radio" [value]="contentsItemType.lesson">{{contentsItemType.lesson}}
+          <input formControlName="type" type="radio" [value]="contentsItemType.stream">{{contentsItemType.stream}}
+        </fieldset>
+      </app-content-with-label>
+      <button (click)="removeFromArray(contests, i)">Remove</button>
+    </fieldset>
+    <button (click)="addIntoArray(contests, defaultContest)">Add</button>
+  </fieldset>
+  <fieldset formArrayName="plans">
+    <h3>Plans</h3>
+    <fieldset *ngFor="let plan of plans.controls; index as i" [formGroupName]="i">
+      <h4>Plan</h4>
+      <app-content-with-label label="name">
+        <input formControlName="name">
+      </app-content-with-label>
+      <app-content-with-label label="price">
+        <input formControlName="price" type="number">
+      </app-content-with-label>
+      <fieldset formArrayName="advantages">
+        <h5>Advantages</h5>
+        <fieldset *ngFor="let advantage of advantages(plan).controls; index as i" [formGroupName]="i">
+          <h6>Advantage</h6>
+          <app-content-with-label label="title">
+            <input formControlName="title">
+          </app-content-with-label>
+          <app-content-with-label label="available">
+            <fieldset>
+              <input formControlName="available" type="radio" [value]="true">True
+              <input formControlName="available" type="radio" [value]="false">False
+            </fieldset>
+          </app-content-with-label>
+          <button (click)="removeFromArray(advantages(plan), i)">Remove</button>
+        </fieldset>
+        <button (click)="addIntoArray(advantages(plan), defaultAdvantage)">Add</button>
+      </fieldset>
+      <button (click)="removeFromArray(plans, i)">Remove</button>
+    </fieldset>
+    <button (click)="addIntoArray(plans, defaultPlan)">Add</button>
+  </fieldset>
+  <fieldset formGroupName="duration">
+    <h3>Duration</h3>
+    <app-content-with-label label="value">
+      <input formControlName="value" type="number">
+    </app-content-with-label>
+    <app-content-with-label label="unit">
+      <fieldset>
+        <input formControlName="unit" type="radio" [value]="duration.hour">{{duration.hour}}
+        <input formControlName="unit" type="radio" [value]="duration.day">{{duration.day}}
+        <input formControlName="unit" type="radio" [value]="duration.week">{{duration.week}}
+        <input formControlName="unit" type="radio" [value]="duration.month">{{duration.month}}
+      </fieldset>
+    </app-content-with-label>
+  </fieldset>
+  <fieldset formGroupName="sales">
+    <h3>Sales</h3>
+    <app-content-with-label label="start">
+      <input formControlName="start" type="datetime-local" step="1">
+    </app-content-with-label>
+    <app-content-with-label label="end">
+      <input formControlName="end" type="datetime-local" step="1">
+    </app-content-with-label>
+  </fieldset>
+</form>
